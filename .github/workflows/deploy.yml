@@ -13,11 +13,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Remove pre-installed Flutter
+        run: sudo rm -rf /opt/hostedtoolcache/flutter/
+
       - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.3'
+          channel: stable
+          cache: false
+
+      - name: Verify Flutter version
         run: |
-          git clone https://github.com/flutter/flutter.git -b stable --depth 1 $HOME/flutter
-          echo "$HOME/flutter/bin" >> $GITHUB_PATH
-          $HOME/flutter/bin/flutter precache --web
+          which flutter
+          flutter --version
+          grep -n "cardTheme\|CardTheme" lib/theme/app_theme.dart || echo "No CardTheme found - correct"
 
       - name: Install dependencies
         run: flutter pub get
