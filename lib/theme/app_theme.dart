@@ -106,14 +106,6 @@ class AppTheme {
       labelStyle: GoogleFonts.inter(color: AppColors.textMuted),
       hintStyle: GoogleFonts.inter(color: AppColors.textMuted),
     ),
-    cardTheme: CardThemeData(
-      color: AppColors.surface,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSizes.radiusL),
-        side: const BorderSide(color: AppColors.cardBorder, width: 0.5),
-      ),
-    ),
     dividerTheme: const DividerThemeData(color: AppColors.divider, thickness: 1),
     iconTheme: const IconThemeData(color: AppColors.textSecondary),
     chipTheme: ChipThemeData(
