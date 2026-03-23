@@ -1,0 +1,26 @@
+# Cloudflare Workers + Pages configuration
+# https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "magnum-security"
+compatibility_date = "2024-01-01"
+
+# ── Cloudflare Pages ─────────────────────────────────────────
+# Build command: flutter build web --release --web-renderer canvaskit
+# Build output:  build/web
+# Root dir:      .
+# (Configure these in the Cloudflare Pages dashboard or via CI)
+
+# ── Cloudflare Worker (optional API proxy) ───────────────────
+# Uncomment the [site] block below if you deploy a Worker alongside Pages
+# to proxy calls to Supabase or Lenco without exposing keys client-side.
+
+# [site]
+# bucket = "build/web"
+
+# Environment variables set in Cloudflare dashboard (not here)
+# SUPABASE_URL, SUPABASE_ANON_KEY are SAFE to expose (protected by RLS)
+# LENCO_API_KEY should stay server-side only (Edge Function / Worker)
+
+# ── Custom domains ───────────────────────────────────────────
+# portal.magnumsecurity.co.zm  → Cloudflare Pages
+# api.magnumsecurity.co.zm     → Cloudflare Worker (optional proxy)

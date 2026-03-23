@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /c/Users/HP/Documents/dev/magnum/lib/screens/admin/*.dart /c/Users/HP/Documents/dev/magnum/lib/screens/client/*.dart)",
+      "Bash(xargs grep:*)",
+      "Bash(find /c/Users/HP/Documents/dev/magnum/lib -name \"*.dart\" -exec wc -l {} +)",
+      "Bash(flutter pub:*)",
+      "Bash(cmd.exe /c \"flutter pub get\")",
+      "Bash(where flutter:*)",
+      "Bash(powershell -command \"Get-Command flutter -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell -command \"Get-ChildItem -Path C:\\\\Users\\\\HP -Recurse -Filter ''flutter.bat'' -ErrorAction SilentlyContinue | Select-Object -First 3 FullName\")",
+      "Bash(\"C:/Users/HP/Documents/dev/flutter/bin/flutter.bat\" pub:*)",
+      "Bash(\"C:/Users/HP/Documents/dev/flutter/bin/flutter.bat\" analyze:*)",
+      "Bash(\"C:/Users/HP/Documents/dev/flutter/bin/flutter.bat\" build:*)",
+      "Bash(\"C:/Users/HP/Documents/dev/flutter/bin/flutter.bat\" --version)",
+      "Bash(\"C:/Users/HP/Documents/dev/flutter/bin/flutter.bat\" create:*)",
+      "Bash(grep -rn $xe2x80x94 c:/Users/HP/Documents/dev/magnum/lib/ --include=*.dart)"
+    ]
+  }
+}

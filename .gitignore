@@ -1,0 +1,28 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.iml
+*.g.dart
+*.freezed.dart
+
+# Environment — NEVER commit real credentials
+.env
+supabase/set-secrets.sh
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Supabase local dev
+supabase/.temp/
+supabase/.branches/

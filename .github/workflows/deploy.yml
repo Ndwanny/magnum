@@ -1,0 +1,52 @@
+name: Build & Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.x'
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Create .env file from secrets
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
+          echo "LENCO_API_KEY=${{ secrets.LENCO_API_KEY }}" >> .env
+          echo "LENCO_MERCHANT_ID=${{ secrets.LENCO_MERCHANT_ID }}" >> .env
+          echo "LENCO_BASE_URL=${{ secrets.LENCO_BASE_URL }}" >> .env
+          echo "LENCO_WEBHOOK_SECRET=${{ secrets.LENCO_WEBHOOK_SECRET }}" >> .env
+          echo "APP_URL=${{ secrets.APP_URL }}" >> .env
+
+      - name: Build Flutter Web
+        run: flutter build web --release --dart-define-from-file=.env
+
+      - name: Copy _redirects and _headers to build output
+        run: |
+          cp web/_redirects build/web/_redirects
+          cp web/_headers   build/web/_headers
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: magnum-security
+          directory: build/web
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
