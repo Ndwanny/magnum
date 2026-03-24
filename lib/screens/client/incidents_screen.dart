@@ -24,13 +24,16 @@ class _IncidentsScreenState extends State<IncidentsScreen> {
         .toList();
 
     return Scaffold(
-      body: Row(
+      backgroundColor: AppColors.bgDark,
+      drawer: !isDesktop ? const ClientDrawer() : null,
+      body: Builder(
+        builder: (scaffoldCtx) => Row(
         children: [
           if (isDesktop) const ClientSidebar(),
           Expanded(
             child: Column(
               children: [
-                ClientTopBar(user: null),
+                ClientTopBar(user: null, onMenuTap: isDesktop ? null : () => Scaffold.of(scaffoldCtx).openDrawer()),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
@@ -69,6 +72,7 @@ class _IncidentsScreenState extends State<IncidentsScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

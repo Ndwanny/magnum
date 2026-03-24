@@ -23,7 +23,7 @@ class _ClientDashboardScreenState extends State<ClientDashboardScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bgDark,
-      drawer: !isDesktop ? const _ClientDrawer() : null,
+      drawer: !isDesktop ? const ClientDrawer() : null,
       body: Builder(
         builder: (scaffoldCtx) => Row(
         children: [
@@ -160,8 +160,8 @@ class ClientSidebar extends StatelessWidget {
   );
 }
 
-class _ClientDrawer extends StatelessWidget {
-  const _ClientDrawer();
+class ClientDrawer extends StatelessWidget {
+  const ClientDrawer();
 
   @override
   Widget build(BuildContext context) => Drawer(
