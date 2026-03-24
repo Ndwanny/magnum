@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../services/mock_data_service.dart';
 import '../../utils/constants.dart';
+import 'guard_dashboard_screen.dart';
 
 class GuardAttendanceScreen extends StatelessWidget {
   const GuardAttendanceScreen({super.key});
@@ -24,12 +25,9 @@ class GuardAttendanceScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.bgDark,
+      drawer: const GuardDrawer(),
       appBar: AppBar(
         backgroundColor: AppColors.bgMid,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: const Text('My Attendance', style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w700)),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),

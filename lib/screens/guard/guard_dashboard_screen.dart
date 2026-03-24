@@ -21,6 +21,7 @@ class GuardDashboardScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.bgDark,
+      drawer: const GuardDrawer(),
       appBar: AppBar(
         backgroundColor: AppColors.bgMid,
         title: Row(children: [
@@ -354,5 +355,50 @@ class _QuickAction extends StatelessWidget {
         Expanded(child: Text(label, style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w600))),
       ]),
     ),
+  );
+}
+
+class GuardDrawer extends StatelessWidget {
+  const GuardDrawer();
+
+  @override
+  Widget build(BuildContext context) => Drawer(
+    backgroundColor: AppColors.bgMid,
+    child: Column(children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(color: AppColors.bgDark),
+        child: Row(children: [
+          Icon(Icons.shield, color: AppColors.primary, size: 32),
+          SizedBox(width: 12),
+          Text('Guard Portal', style: TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w700)),
+        ]),
+      ),
+      ListTile(
+        leading: const Icon(Icons.dashboard_outlined, color: AppColors.textMuted, size: 18),
+        title: const Text('Dashboard', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+        onTap: () { Navigator.pop(context); Navigator.pushNamedAndRemoveUntil(context, AppRoutes.guardDashboard, (r) => false); },
+      ),
+      ListTile(
+        leading: const Icon(Icons.calendar_month_outlined, color: AppColors.textMuted, size: 18),
+        title: const Text('My Schedule', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+        onTap: () { Navigator.pop(context); Navigator.pushNamed(context, AppRoutes.guardSchedule); },
+      ),
+      ListTile(
+        leading: const Icon(Icons.history, color: AppColors.textMuted, size: 18),
+        title: const Text('Attendance', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+        onTap: () { Navigator.pop(context); Navigator.pushNamed(context, AppRoutes.guardAttendance); },
+      ),
+      const Spacer(),
+      const Divider(color: AppColors.divider),
+      Builder(builder: (ctx) => ListTile(
+        leading: const Icon(Icons.logout, color: AppColors.textMuted, size: 18),
+        title: const Text('Sign Out', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+        onTap: () {
+          ctx.read<AuthService>().logout();
+          Navigator.pushNamedAndRemoveUntil(ctx, AppRoutes.home, (_) => false);
+        },
+      )),
+      const SizedBox(height: 8),
+    ]),
   );
 }
