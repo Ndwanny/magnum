@@ -14,8 +14,6 @@ class ClientDashboardScreen extends StatefulWidget {
 }
 
 class _ClientDashboardScreenState extends State<ClientDashboardScreen> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthService>();
@@ -24,16 +22,16 @@ class _ClientDashboardScreenState extends State<ClientDashboardScreen> {
     final patrols   = MockDataService.patrolLogs;
 
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: AppColors.bgDark,
       drawer: !isDesktop ? const _ClientDrawer() : null,
-      body: Row(
+      body: Builder(
+        builder: (scaffoldCtx) => Row(
         children: [
           if (isDesktop) const ClientSidebar(),
           Expanded(
             child: Column(
               children: [
-                ClientTopBar(user: auth.currentUser, onMenuTap: isDesktop ? null : () => _scaffoldKey.currentState?.openDrawer()),
+                ClientTopBar(user: auth.currentUser, onMenuTap: isDesktop ? null : () => Scaffold.of(scaffoldCtx).openDrawer()),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
@@ -82,6 +80,7 @@ class _ClientDashboardScreenState extends State<ClientDashboardScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

@@ -14,8 +14,6 @@ class AdminDashboardScreen extends StatefulWidget {
 }
 
 class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     final isDesktop = AppSizes.isDesktop(context);
@@ -24,16 +22,16 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     final incidents = MockDataService.incidents;
 
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: AppColors.bgDark,
       drawer: !isDesktop ? const _AdminDrawer() : null,
-      body: Row(
+      body: Builder(
+        builder: (scaffoldCtx) => Row(
         children: [
           if (isDesktop) const AdminSidebar(),
           Expanded(
             child: Column(
               children: [
-                AdminTopBar(onMenuTap: isDesktop ? null : () => _scaffoldKey.currentState?.openDrawer()),
+                AdminTopBar(onMenuTap: isDesktop ? null : () => Scaffold.of(scaffoldCtx).openDrawer()),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
@@ -113,6 +111,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }
