@@ -33,10 +33,10 @@ class AppStrings {
   static const String appName        = 'Magnum Security';
   static const String tagline        = 'Protecting Zambia\'s Future';
   static const String subTagline     = 'Professional armed & unarmed security services across Lusaka and Zambia.';
-  static const String phone          = '+260 977 123 456';
-  static const String whatsapp       = '+260 977 123 456';
+  static const String phone          = '+260 21 123 5274';
+  static const String whatsapp       = '+260 21 123 5274';
   static const String email          = 'info@magnumsecurity.co.zm';
-  static const String address        = 'Plot 12, Cairo Road, Lusaka, Zambia';
+  static const String address        = 'Plot 11/12B, Bwinjimfumu Road, Rhodes Park, Lusaka';
   static const String licenseZAPS    = 'ZAPS Lic. ZS-2024-0042';
   static const String licensePSAZ    = 'PSAZ Member No. 0178';
 
