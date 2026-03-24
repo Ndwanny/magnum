@@ -7,8 +7,14 @@ import '../../utils/constants.dart';
 import '../../widgets/dashboard/stat_card.dart';
 import '../../widgets/dashboard/activity_item.dart';
 
-class ClientDashboardScreen extends StatelessWidget {
+class ClientDashboardScreen extends StatefulWidget {
   const ClientDashboardScreen({super.key});
+  @override
+  State<ClientDashboardScreen> createState() => _ClientDashboardScreenState();
+}
+
+class _ClientDashboardScreenState extends State<ClientDashboardScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +24,16 @@ class ClientDashboardScreen extends StatelessWidget {
     final patrols   = MockDataService.patrolLogs;
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppColors.bgDark,
+      drawer: !isDesktop ? const _ClientDrawer() : null,
       body: Row(
         children: [
           if (isDesktop) const ClientSidebar(),
           Expanded(
             child: Column(
               children: [
-                ClientTopBar(user: auth.currentUser),
+                ClientTopBar(user: auth.currentUser, onMenuTap: isDesktop ? null : () => _scaffoldKey.currentState?.openDrawer()),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
@@ -81,7 +89,8 @@ class ClientDashboardScreen extends StatelessWidget {
 
 class ClientTopBar extends StatelessWidget {
   final AuthUser? user;
-  const ClientTopBar({this.user});
+  final VoidCallback? onMenuTap;
+  const ClientTopBar({this.user, this.onMenuTap});
 
   @override
   Widget build(BuildContext context) => Container(
@@ -94,7 +103,7 @@ class ClientTopBar extends StatelessWidget {
     child: Row(
       children: [
         if (!AppSizes.isDesktop(context))
-          Builder(builder: (ctx) => IconButton(icon: const Icon(Icons.menu, color: AppColors.textPrimary), onPressed: () => Scaffold.of(ctx).openDrawer())),
+          IconButton(icon: const Icon(Icons.menu, color: AppColors.textPrimary), onPressed: onMenuTap),
         const Text('Client Portal', style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
         const Spacer(),
         const Icon(Icons.notifications_outlined, color: AppColors.textSecondary, size: 20),
@@ -149,6 +158,36 @@ class ClientSidebar extends StatelessWidget {
         const SizedBox(height: 8),
       ],
     ),
+  );
+}
+
+class _ClientDrawer extends StatelessWidget {
+  const _ClientDrawer();
+
+  @override
+  Widget build(BuildContext context) => Drawer(
+    backgroundColor: AppColors.bgMid,
+    child: Column(children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(color: AppColors.bgDark),
+        child: Row(children: [
+          Icon(Icons.shield, color: AppColors.primary, size: 32),
+          SizedBox(width: 12),
+          Text('Client Portal', style: TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w700)),
+        ]),
+      ),
+      _SidebarItem(icon: Icons.dashboard_outlined, label: 'Dashboard', route: AppRoutes.clientDashboard),
+      _SidebarItem(icon: Icons.report_outlined, label: 'Incident Reports', route: AppRoutes.clientIncidents),
+      _SidebarItem(icon: Icons.route_outlined, label: 'Patrol Logs', route: AppRoutes.clientPatrol),
+      _SidebarItem(icon: Icons.receipt_long_outlined, label: 'Billing', route: AppRoutes.clientBilling),
+      const Spacer(),
+      const Divider(color: AppColors.divider),
+      Builder(builder: (ctx) => _SidebarItem(icon: Icons.logout, label: 'Sign Out', route: '', onTap: () {
+        ctx.read<AuthService>().logout();
+        Navigator.pushNamedAndRemoveUntil(ctx, AppRoutes.home, (_) => false);
+      })),
+      const SizedBox(height: 8),
+    ]),
   );
 }
 

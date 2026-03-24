@@ -7,8 +7,14 @@ import '../../utils/constants.dart';
 import '../../widgets/dashboard/stat_card.dart';
 import '../../widgets/dashboard/activity_item.dart';
 
-class AdminDashboardScreen extends StatelessWidget {
+class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
+  @override
+  State<AdminDashboardScreen> createState() => _AdminDashboardScreenState();
+}
+
+class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +24,7 @@ class AdminDashboardScreen extends StatelessWidget {
     final incidents = MockDataService.incidents;
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppColors.bgDark,
       drawer: !isDesktop ? const _AdminDrawer() : null,
       body: Row(
@@ -26,7 +33,7 @@ class AdminDashboardScreen extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                AdminTopBar(),
+                AdminTopBar(onMenuTap: isDesktop ? null : () => _scaffoldKey.currentState?.openDrawer()),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
@@ -112,6 +119,9 @@ class AdminDashboardScreen extends StatelessWidget {
 }
 
 class AdminTopBar extends StatelessWidget {
+  final VoidCallback? onMenuTap;
+  const AdminTopBar({this.onMenuTap});
+
   @override
   Widget build(BuildContext context) => Container(
     height: 60,
@@ -119,7 +129,7 @@ class AdminTopBar extends StatelessWidget {
     decoration: const BoxDecoration(color: AppColors.bgMid, border: Border(bottom: BorderSide(color: AppColors.divider))),
     child: Row(children: [
       if (!AppSizes.isDesktop(context))
-        Builder(builder: (ctx) => IconButton(icon: const Icon(Icons.menu, color: AppColors.textPrimary), onPressed: () => Scaffold.of(ctx).openDrawer())),
+        IconButton(icon: const Icon(Icons.menu, color: AppColors.textPrimary), onPressed: onMenuTap),
       const Text('Admin Portal', style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
       const Spacer(),
       const Icon(Icons.notifications_outlined, color: AppColors.textSecondary, size: 20),
