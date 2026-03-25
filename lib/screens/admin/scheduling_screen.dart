@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../services/mock_data_service.dart';
 import '../../utils/constants.dart';
-import 'admin_dashboard_screen.dart';
+import '../../widgets/common/admin_navigation.dart';
 
 class AdminSchedulingScreen extends StatefulWidget {
   const AdminSchedulingScreen({super.key});
@@ -46,13 +46,14 @@ class _AdminSchedulingScreenState extends State<AdminSchedulingScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bgDark,
+      drawer: !isDesktop ? const AdminDrawer() : null,
       body: Row(
         children: [
           if (isDesktop) const AdminSidebar(),
           Expanded(
             child: Column(
               children: [
-                AdminTopBar(),
+                const AdminTopBar(title: 'Shift Scheduling'),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
@@ -203,6 +204,7 @@ class _AdminSchedulingScreenState extends State<AdminSchedulingScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

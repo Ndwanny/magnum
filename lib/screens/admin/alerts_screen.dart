@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/mock_data_service.dart';
 import '../../utils/constants.dart';
-import 'admin_dashboard_screen.dart';
+import '../../widgets/common/admin_navigation.dart';
 
 class AdminAlertsScreen extends StatefulWidget {
   const AdminAlertsScreen({super.key});
@@ -32,10 +32,11 @@ class _AdminAlertsScreenState extends State<AdminAlertsScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bgDark,
+      drawer: !isDesktop ? const AdminDrawer() : null,
       body: Row(children: [
         if (isDesktop) const AdminSidebar(),
         Expanded(child: Column(children: [
-          AdminTopBar(),
+          const AdminTopBar(title: 'Alerts & Notifications'),
           Expanded(child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -57,6 +58,7 @@ class _AdminAlertsScreenState extends State<AdminAlertsScreen> {
           )),
         ])),
       ]),
+      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../services/mock_data_service.dart';
 import '../../models/guard.dart';
 import '../../utils/constants.dart';
-import 'admin_dashboard_screen.dart';
+import '../../widgets/common/admin_navigation.dart';
 
 class AdminGuardsScreen extends StatefulWidget {
   const AdminGuardsScreen({super.key});
@@ -31,13 +31,14 @@ class _AdminGuardsScreenState extends State<AdminGuardsScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bgDark,
+      drawer: !isDesktop ? const AdminDrawer() : null,
       body: Row(
         children: [
           if (isDesktop) const AdminSidebar(),
           Expanded(
             child: Column(
               children: [
-                AdminTopBar(),
+                const AdminTopBar(title: 'Guard Management'),
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +112,7 @@ class _AdminGuardsScreenState extends State<AdminGuardsScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

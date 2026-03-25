@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../services/mock_data_service.dart';
 import '../../utils/constants.dart';
-import 'admin_dashboard_screen.dart';
+import '../../widgets/common/admin_navigation.dart';
 
 class AdminMessagingScreen extends StatefulWidget {
   const AdminMessagingScreen({super.key});
@@ -45,10 +45,11 @@ class _AdminMessagingScreenState extends State<AdminMessagingScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bgDark,
+      drawer: !isDesktop ? const AdminDrawer() : null,
       body: Row(children: [
         if (isDesktop) const AdminSidebar(),
         Expanded(child: Column(children: [
-          AdminTopBar(),
+          const AdminTopBar(title: 'Team Messaging'),
           Expanded(child: Row(children: [
             // Channel list
             Container(

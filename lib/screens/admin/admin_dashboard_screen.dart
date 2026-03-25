@@ -6,6 +6,7 @@ import '../../services/mock_data_service.dart';
 import '../../utils/constants.dart';
 import '../../widgets/dashboard/stat_card.dart';
 import '../../widgets/dashboard/activity_item.dart';
+import '../../widgets/common/admin_navigation.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -23,15 +24,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.bgDark,
-      drawer: !isDesktop ? const _AdminDrawer() : null,
-      body: Builder(
-        builder: (scaffoldCtx) => Row(
+      drawer: !isDesktop ? const AdminDrawer() : null,
+      body: Row(
         children: [
           if (isDesktop) const AdminSidebar(),
           Expanded(
             child: Column(
               children: [
-                AdminTopBar(onMenuTap: isDesktop ? null : () => Scaffold.of(scaffoldCtx).openDrawer()),
+                const AdminTopBar(title: 'Operations Dashboard'),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
@@ -112,138 +112,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           ),
         ],
       ),
-      ),
     );
   }
-}
-
-class AdminTopBar extends StatelessWidget {
-  final VoidCallback? onMenuTap;
-  const AdminTopBar({this.onMenuTap});
-
-  @override
-  Widget build(BuildContext context) => Container(
-    height: 60,
-    padding: const EdgeInsets.symmetric(horizontal: 24),
-    decoration: const BoxDecoration(color: AppColors.bgMid, border: Border(bottom: BorderSide(color: AppColors.divider))),
-    child: Row(children: [
-      if (!AppSizes.isDesktop(context))
-        IconButton(icon: const Icon(Icons.menu, color: AppColors.textPrimary), onPressed: onMenuTap),
-      const Text('Admin Portal', style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
-      const Spacer(),
-      const Icon(Icons.notifications_outlined, color: AppColors.textSecondary, size: 20),
-      const SizedBox(width: 16),
-      const CircleAvatar(radius: 16, backgroundColor: Color(0x33C9A84C), child: Text('A', style: TextStyle(color: AppColors.primary, fontSize: 13, fontWeight: FontWeight.w700))),
-      const SizedBox(width: 8),
-      Builder(builder: (ctx) => TextButton(
-        onPressed: () {
-          ctx.read<AuthService>().logout();
-          Navigator.pushNamedAndRemoveUntil(ctx, AppRoutes.home, (_) => false);
-        },
-        child: const Text('Sign Out', style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
-      )),
-    ]),
-  );
-}
-
-class AdminSidebar extends StatelessWidget {
-  const AdminSidebar();
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: 230,
-    color: AppColors.bgMid,
-    child: Column(children: [
-      Container(
-        padding: const EdgeInsets.all(20),
-        child: Row(children: const [
-          Icon(Icons.shield, color: AppColors.primary, size: 24),
-          SizedBox(width: 8),
-          Text('MAGNUM', style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
-        ]),
-      ),
-      const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Divider(color: AppColors.divider)),
-      const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        child: Align(alignment: Alignment.centerLeft, child: Text('OPERATIONS', style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1.5))),
-      ),
-      _AdminNavItem(icon: Icons.dashboard_outlined, label: 'Dashboard', route: AppRoutes.adminDashboard, active: true),
-      _AdminNavItem(icon: Icons.people_outline, label: 'Guard Management', route: AppRoutes.adminGuards),
-      _AdminNavItem(icon: Icons.calendar_month_outlined, label: 'Scheduling', route: AppRoutes.adminScheduling),
-      _AdminNavItem(icon: Icons.apartment_outlined, label: 'Client Sites', route: AppRoutes.adminSites),
-      const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        child: Align(alignment: Alignment.centerLeft, child: Text('REPORTS', style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1.5))),
-      ),
-      _AdminNavItem(icon: Icons.people_outline, label: 'Attendance', route: AppRoutes.adminAttendance),
-      _AdminNavItem(icon: Icons.payments_outlined, label: 'Payroll', route: AppRoutes.adminPayroll),
-      const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        child: Align(alignment: Alignment.centerLeft, child: Text('COMMUNICATIONS', style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1.5))),
-      ),
-      _AdminNavItem(icon: Icons.chat_outlined, label: 'Messaging & Alerts', route: AppRoutes.adminMessaging),
-      _AdminNavItem(icon: Icons.leaderboard_outlined, label: 'CRM Pipeline', route: AppRoutes.adminCrm),
-      const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        child: Align(alignment: Alignment.centerLeft, child: Text('WORKFORCE', style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1.5))),
-      ),
-      _AdminNavItem(icon: Icons.fingerprint, label: 'Attendance', route: AppRoutes.adminAttendance),
-      _AdminNavItem(icon: Icons.payments_outlined, label: 'Payroll', route: AppRoutes.adminPayroll),
-      const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        child: Align(alignment: Alignment.centerLeft, child: Text('BUSINESS', style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 1.5))),
-      ),
-      _AdminNavItem(icon: Icons.bar_chart_outlined, label: 'CRM Pipeline', route: AppRoutes.adminCrm),
-      _AdminNavItem(icon: Icons.notifications_active_outlined, label: 'Alerts & SMS', route: AppRoutes.adminAlerts),
-      _AdminNavItem(icon: Icons.chat_bubble_outline, label: 'Messaging', route: AppRoutes.adminMessaging),
-      _AdminNavItem(icon: Icons.receipt_long_outlined, label: 'Billing', route: AppRoutes.clientBilling),
-      _AdminNavItem(icon: Icons.report_outlined, label: 'Incidents', route: AppRoutes.clientIncidents),
-      const Spacer(),
-      const Divider(color: AppColors.divider),
-      _AdminNavItem(icon: Icons.language, label: 'Public Website', route: AppRoutes.home),
-      const SizedBox(height: 8),
-    ]),
-  );
-}
-
-class _AdminDrawer extends StatelessWidget {
-  const _AdminDrawer();
-  @override
-  Widget build(BuildContext context) => Drawer(
-    backgroundColor: AppColors.bgMid,
-    child: Column(children: const [
-      DrawerHeader(decoration: BoxDecoration(color: AppColors.bgDark), child: Row(children: [Icon(Icons.shield, color: AppColors.primary, size: 32), SizedBox(width: 12), Text('Admin Portal', style: TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w700))])),
-      _AdminNavItem(icon: Icons.dashboard_outlined, label: 'Dashboard', route: AppRoutes.adminDashboard, active: true),
-      _AdminNavItem(icon: Icons.people_outline, label: 'Guards', route: AppRoutes.adminGuards),
-      _AdminNavItem(icon: Icons.calendar_month_outlined, label: 'Scheduling', route: AppRoutes.adminScheduling),
-      _AdminNavItem(icon: Icons.apartment_outlined, label: 'Sites', route: AppRoutes.adminSites),
-    ]),
-  );
-}
-
-class _AdminNavItem extends StatelessWidget {
-  final IconData icon;
-  final String label, route;
-  final bool active;
-  const _AdminNavItem({required this.icon, required this.label, required this.route, this.active = false});
-
-  @override
-  Widget build(BuildContext context) => Material(
-    color: active ? AppColors.primary.withOpacity(0.12) : Colors.transparent,
-    borderRadius: BorderRadius.circular(8),
-    child: InkWell(
-      borderRadius: BorderRadius.circular(8),
-      onTap: () => Navigator.pushNamed(context, route),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
-        child: Row(children: [
-          Icon(icon, color: active ? AppColors.primary : AppColors.textMuted, size: 18),
-          const SizedBox(width: 10),
-          Text(label, style: TextStyle(color: active ? AppColors.primary : AppColors.textSecondary, fontSize: 13, fontWeight: active ? FontWeight.w600 : FontWeight.w400)),
-        ]),
-      ),
-    ),
-  );
 }
 
 // ── Charts ────────────────────────────────────────────────────────────────────
