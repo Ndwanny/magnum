@@ -87,7 +87,6 @@ class _AdminCrmScreenState extends State<AdminCrmScreen> {
           )),
         ])),
       ]),
-      ),
     );
   }
 

@@ -275,7 +275,6 @@ class _PayslipCardState extends State<_PayslipCard> {
           ),
         ],
       ]),
-      ),
     );
   }
 }

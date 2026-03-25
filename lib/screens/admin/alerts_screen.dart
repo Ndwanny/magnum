@@ -58,7 +58,6 @@ class _AdminAlertsScreenState extends State<AdminAlertsScreen> {
           )),
         ])),
       ]),
-      ),
     );
   }
 }

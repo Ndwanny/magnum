@@ -115,7 +115,6 @@ class _AdminSitesScreenState extends State<AdminSitesScreen> {
           ),
         ],
       ),
-      ),
     );
   }
 }

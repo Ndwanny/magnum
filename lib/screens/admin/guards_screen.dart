@@ -113,7 +113,6 @@ class _AdminGuardsScreenState extends State<AdminGuardsScreen> {
           ),
         ],
       ),
-      ),
     );
   }
 }

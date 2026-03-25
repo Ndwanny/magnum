@@ -205,7 +205,6 @@ class _AdminSchedulingScreenState extends State<AdminSchedulingScreen> {
           ),
         ],
       ),
-      ),
     );
   }
 }
