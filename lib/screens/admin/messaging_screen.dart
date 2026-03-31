@@ -140,7 +140,7 @@ class _AdminMessagingScreenState extends State<AdminMessagingScreen> {
                     final isMe = msg.senderId == 'A001';
                     return _MessageBubble(senderName: msg.senderName, content: msg.content, time: msg.sentAt, isMe: isMe);
                   } else {
-                    final m = _localMessages[idx - chan.messages.length];
+                    final m = _localMessages[(idx - chan.messages.length) as int];
                     return _MessageBubble(senderName: 'You', content: m['text'], time: m['time'], isMe: true);
                   }
                 },
