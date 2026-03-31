@@ -20,9 +20,11 @@ class AdminTopBar extends StatelessWidget {
       child: Row(
         children: [
           if (!isDesktop)
-            IconButton(
-              icon: const Icon(Icons.menu, color: AppColors.textPrimary),
-              onPressed: () => Scaffold.of(context).openDrawer(),
+            Builder(
+              builder: (ctx) => IconButton(
+                icon: const Icon(Icons.menu, color: AppColors.textPrimary),
+                onPressed: () => Scaffold.of(ctx).openDrawer(),
+              ),
             ),
           Text(title, style: const TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
           const Spacer(),

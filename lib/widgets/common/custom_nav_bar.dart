@@ -121,15 +121,14 @@ class AppDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(color: AppColors.bgDark),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.shield, color: AppColors.primary, size: 36),
-                SizedBox(height: 8),
+                Icon(Icons.shield, color: AppColors.primary, size: 32),
+                SizedBox(width: 12),
                 Text('MAGNUM SECURITY', style: TextStyle(
                   color: AppColors.textPrimary, fontWeight: FontWeight.w800,
-                  letterSpacing: 1,
+                  letterSpacing: 1, fontSize: 16,
                 )),
               ],
             ),
